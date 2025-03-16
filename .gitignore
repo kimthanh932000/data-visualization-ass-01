@@ -5,4 +5,4 @@
 !.gitignore
 
 # Un-ignore the "R Script" file
-!R Script.R
+!*.R
