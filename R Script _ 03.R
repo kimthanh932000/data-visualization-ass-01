@@ -116,19 +116,12 @@ count.outliers <- function(data, var) {
   z_score <- (data[[var]] - mean) / sd
   
   # Get number of outliers (Z-score > 3 or Z-score < -3)
-  outliers.count <- sum(abs(z_score) > 3)
-  outliers.count <- outliers.count + sum(abs(z_score) < -3)
-  
-  outliers.count
+  outliers.count <- sum(z_score < -3 | z_score > 3)
   
   # Get percentage of outliers
-  outlier.percentage <- round((outliers.count / length(data[[var]])) * 100, 1)
+  outliers.percentage <- round((outliers.count / length(data[[var]])) * 100, 1)
   
-  labels <- c("Count", "Percentage")
-  results <- c(outliers.count, outlier.percentage)
-  df <- data.frame(labels,results)
-  
-  return(df)
+  return(list(Count=outliers.count, Percentage=outliers.percentage))
 }
 
 count.outliers(mydata, "Hits")
