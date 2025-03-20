@@ -100,43 +100,83 @@ IP.Range.Trust.Score.max <- round(max(mydata$IP.Range.Trust.Score), 1)
 IP.Range.Trust.Score.mean <- round(mean(mydata$IP.Range.Trust.Score), 1)
 IP.Range.Trust.Score.median <- round(median(mydata$IP.Range.Trust.Score), 1)
 IP.Range.Trust.Score.skewness <- round(skewness(mydata$IP.Range.Trust.Score), 1)
+
+
+#Plotting histogram for continuous variables
+ggplot(mydata,aes(x=Hits)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Average.Request.Size.Bytes)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Attack.Window.Seconds)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Average.Attacker.Payload.Entropy.Bits)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Attack.Source.IP.Address.Count)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Average.ping.to.attacking.IP.milliseconds)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Average.ping.variability)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Individual.URLs.requested)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=IP.Range.Trust.Score)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+
 # **********************************************************
 
 # Define variables to exclude
-exclude_vars <- c(
-  "dat", 
-  "mydata", 
-  "freq.var", 
-  "categorical.vars", 
-  "item", 
-  "max.var", 
-  "min.var", 
-  "median.var", 
-  "mean.var",
-  "skewness.var",
-  "missing.count", 
-  "missing.proportion", 
-  "missing.var",
-  "numeric.vars",
-  "selected.rows",
-  "total")
-
-# Get all objects (variables) in the environment, excluding specific ones
-env_vars <- setdiff(ls(), exclude_vars)
-
-# Create an empty list to store variable names and values
-env_list <- list()
-
-# Loop over each variable and store its value
-for (var in env_vars) {
-  env_list[[var]] <- get(var)  # Retrieve the value of the variable
-}
-
-# Convert the list to a data frame
-env_df <- data.frame(
-  Variable = names(env_list),
-  Value = sapply(env_list, function(x) paste(x, collapse=", "))  # Convert values to text
-)
-
-# Export to CSV
-write.csv(env_df, "R_Environment_Variables_02.csv", row.names=FALSE)
+# exclude_vars <- c(
+#   "dat", 
+#   "mydata", 
+#   "freq.var", 
+#   "categorical.vars", 
+#   "item", 
+#   "max.var", 
+#   "min.var", 
+#   "median.var", 
+#   "mean.var",
+#   "skewness.var",
+#   "missing.count", 
+#   "missing.proportion", 
+#   "missing.var",
+#   "numeric.vars",
+#   "selected.rows",
+#   "total")
+# 
+# # Get all objects (variables) in the environment, excluding specific ones
+# env_vars <- setdiff(ls(), exclude_vars)
+# 
+# # Create an empty list to store variable names and values
+# env_list <- list()
+# 
+# # Loop over each variable and store its value
+# for (var in env_vars) {
+#   env_list[[var]] <- get(var)  # Retrieve the value of the variable
+# }
+# 
+# # Convert the list to a data frame
+# env_df <- data.frame(
+#   Variable = names(env_list),
+#   Value = sapply(env_list, function(x) paste(x, collapse=", "))  # Convert values to text
+# )
+# 
+# # Export to CSV
+# write.csv(env_df, "R_Environment_Variables_02.csv", row.names=FALSE)
