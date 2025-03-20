@@ -12,6 +12,8 @@ selected.rows <- sample(1:nrow(dat),size=400,replace=FALSE)
 mydata <- dat[selected.rows,]
 dim(mydata) #check the dimension of your sub-sample
 
+# ************************************************************************
+
 # Create a new vector containing all the categorical/binary variables
 categorical.vars <- c(
   "Port", 
@@ -49,6 +51,8 @@ numeric.vars <- c(
   "IP.Range.Trust.Score"
 )
 
+# ************************************************************************
+
 # Create empty lists to store statistics including min, max, etc.
 missing.count.list <- list()
 missing.percent.list <- list()
@@ -78,7 +82,9 @@ mean.list
 median.list
 skewness.list
 
-# Plotting histogram for specific continuous features
+# ********************************************************************
+
+# Plotting histogram for features that have potential outliers
 ggplot(mydata,aes(x=Hits)) +
   geom_histogram() + #Histogram with default settings
   ylab("Frequency")
@@ -99,6 +105,35 @@ ggplot(mydata,aes(x=Individual.URLs.requested)) +
   geom_histogram() + #Histogram with default settings
   ylab("Frequency")
 
+# ****************************************************************
 
+# Function to count outliers for a given variable using Z-score
+count.outliers <- function(data, var) {
+  mean <- mean(data[[var]])  # Calculate mean
+  sd <- sd(data[[var]])      # Calculate standard deviation
+  
+  # Compute Z-scores
+  z_score <- (data[[var]] - mean) / sd
+  
+  # Get number of outliers (Z-score > 3 or Z-score < -3)
+  outliers.count <- sum(abs(z_score) > 3)
+  outliers.count <- outliers.count + sum(abs(z_score) < -3)
+  
+  outliers.count
+  
+  # Get percentage of outliers
+  outlier.percentage <- round((outliers.count / length(data[[var]])) * 100, 1)
+  
+  labels <- c("Count", "Percentage")
+  results <- c(outliers.count, outlier.percentage)
+  df <- data.frame(labels,results)
+  
+  return(df)
+}
 
+count.outliers(mydata, "Hits")
+count.outliers(mydata, "Attack.Source.IP.Address.Count")
+count.outliers(mydata, "Average.ping.to.attacking.IP.milliseconds")
+count.outliers(mydata, "Average.ping.variability")
+count.outliers(mydata, "Individual.URLs.requested")
 
