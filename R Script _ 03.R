@@ -27,7 +27,7 @@ categorical.vars <- c(
 freq.list <- list()
 prop.list <- list()
 
-# Iterate over the newly created vector and calculate frequency & proportion table for each variable
+# Iterate over the categorical vector and calculate frequency & proportion table for each variable
 for (var in categorical.vars) {
   freq.list[[var]] <- table(mydata[[var]]);  # Get frequency table
   prop.list[[var]] <- round(prop.table(freq.list[[var]]) * 100, 1)  # Get proportion table
@@ -58,6 +58,7 @@ mean.list <- list()
 median.list <- list()
 skewness.list <- list()
 
+# Loop over the numeric vector and compute min, max, mean, median and skewness for each variable
 for (var in numeric.vars) {
   missing.count.list[[var]] <- sum(is.na(mydata[[var]]))
   missing.percent.list[[var]] <- round((missing.count.list[[var]] / length(mydata[[var]])) * 100, 1)
@@ -68,6 +69,7 @@ for (var in numeric.vars) {
   skewness.list[[var]] <- round(skewness(mydata[[var]]), 1)
 }
 
+# Print all the statistics
 missing.count.list
 missing.percent.list
 min.list
@@ -75,3 +77,28 @@ max.list
 mean.list
 median.list
 skewness.list
+
+# Plotting histogram for specific continuous features
+ggplot(mydata,aes(x=Hits)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Attack.Source.IP.Address.Count)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Average.ping.to.attacking.IP.milliseconds)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Average.ping.variability)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+ggplot(mydata,aes(x=Individual.URLs.requested)) +
+  geom_histogram() + #Histogram with default settings
+  ylab("Frequency")
+
+
+
+
