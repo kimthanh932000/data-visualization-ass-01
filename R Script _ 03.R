@@ -109,18 +109,19 @@ ggplot(mydata,aes(x=Individual.URLs.requested)) +
 
 # Function to count outliers for a given variable using Z-score
 count.outliers <- function(data, var) {
-  mean <- mean(data[[var]])  # Calculate mean
-  sd <- sd(data[[var]])      # Calculate standard deviation
+  mean <- mean(data[[var]])  # Get mean
+  sd <- sd(data[[var]])      # Get standard deviation
   
-  # Compute Z-scores
+  # Get Z-scores
   z_score <- (data[[var]] - mean) / sd
   
-  # Get number of outliers (Z-score > 3 or Z-score < -3)
+  # Get count of values falling out of range  (-3 <= z <= 3)
   outliers.count <- sum(z_score < -3 | z_score > 3)
   
-  # Get percentage of outliers
+  # Get percentage of the count
   outliers.percentage <- round((outliers.count / length(data[[var]])) * 100, 1)
   
+  # Return count and percentage
   return(list(Count=outliers.count, Percentage=outliers.percentage))
 }
 
